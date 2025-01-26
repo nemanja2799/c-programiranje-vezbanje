@@ -16,7 +16,7 @@ char * strCat(char *destinationString, char* sourceString)
     //memcpy(tempString, destinationString, strlen(destinationString));
     //memcpy((char *)(tempString+strlen(destinationString)),sourceString,strlen(sourceString));
     // treba napomenuti da je ovde moguca dodela pojedinacnim elementima stringa tempString zato sto mu se prvi put dodeljuju elementi
-    // sledeca neka dodela ne bi bila moguca, vec bi moralo da se dodeljuje brednost celom stringu
+    // sledeca neka dodela ne bi bila moguca, vec bi moralo da se dodeljuje vrednost celom stringu
     return tempString;
 }
 
