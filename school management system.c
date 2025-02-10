@@ -45,7 +45,7 @@ Student* CreateStudent(void)
 }
 
 // Step5: Creating a Course
-Student* CreateCourse(void)
+Course* CreateCourse(void)
 {   
     Course *newCourse = (Course*)malloc(sizeof(Course));
     printf("Enter Course Name:");
