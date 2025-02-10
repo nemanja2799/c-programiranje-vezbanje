@@ -29,18 +29,14 @@ typedef struct school
 // Step4: Creating Student
 Student* CreateStudent(void)
 {   
-    char studentName[20];
-    int studentId;
     Student* newStudent;
-    printf("Input student Name:");
-    scanf("%20s", studentName);
-    printf("Input student id:");
-    scanf("%u", &studentId);
-    printf("Input student grade:");
-    scanf("%u", newStudent->grade);
     newStudent = (Student*)malloc(sizeof(Student));
-    newStudent->id = studentId;
-    strcpy(newStudent->name, studentName);
+    printf("Input student Name:");
+    scanf("%20s", newStudent->name);
+    printf("Input student id:");
+    scanf("%u", &(newStudent->id));
+    printf("Input student grade:");
+    scanf("%u", &(newStudent->grade));
     return newStudent;
 }
 
@@ -53,7 +49,7 @@ Course* CreateCourse(void)
     // printf("Enter average grade:");
     // scanf("%f", newCourse->averageGrade);
     printf("Enter total number of students of attending course:");
-    scanf("%d", newCourse->totalStudents);
+    scanf("%d", &(newCourse->totalStudents));
     printf("Enter students that attend courses:");
     newCourse->studentArray = (Student*)malloc(sizeof(Student)*newCourse->totalStudents);
     for(int i=0; i<newCourse->totalStudents;i++)
@@ -77,7 +73,7 @@ School* CreateSchool(void)
     // printf("Enter average grade:");
     // scanf("%f", newCourse->averageGrade);
     printf("Enter total number of courses in school:");
-    scanf("%d", newSchool->totalCourses);
+    scanf("%d", &(newSchool->totalCourses));
     printf("Enter courses that is attending in school:");
     newSchool->courseArray = (Course*)malloc(sizeof(Course)*newSchool->totalCourses);
     for(int i=0; i<newSchool->totalCourses;i++)
@@ -220,5 +216,7 @@ void printCoursessWitHighestAverageGrade(School* school)
 
  int main()
  {
+    // Create School
+    School* mySchool = CreateSchool();
 
  }
