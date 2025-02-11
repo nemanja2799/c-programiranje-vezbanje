@@ -27,7 +27,7 @@ typedef struct school
 }School;
 
 // Step4: Creating Student
-Student* CreateStudent(void)
+Student* createStudent(void)
 {   
     Student* newStudent;
     newStudent = (Student*)malloc(sizeof(Student));
@@ -41,7 +41,7 @@ Student* CreateStudent(void)
 }
 
 // Step5: Creating a Course
-Course* CreateCourse(void)
+Course* createCourse(void)
 {   
     Course *newCourse = (Course*)malloc(sizeof(Course));
     printf("Enter Course Name:");
@@ -55,7 +55,7 @@ Course* CreateCourse(void)
     for(int i=0; i<newCourse->totalStudents;i++)
     {   
         printf("Enter details for student #%d\n",i + 1);
-        Student* newStudent = CreateStudent();
+        Student* newStudent = createStudent();
         newCourse->studentArray[i] = *newStudent; 
         newCourse->averageGrade += newCourse->studentArray[i].grade;
         free(newStudent); // free the temporary student memory allocated by "create student"
@@ -65,7 +65,7 @@ Course* CreateCourse(void)
 }
 
 // Step6: Creating a School
-School* CreateSchool(void)
+School* createSchool(void)
 {   
     School* newSchool = (School*)malloc(sizeof(School));
     printf("Enter School Name:");
@@ -79,7 +79,7 @@ School* CreateSchool(void)
     for(int i=0; i<newSchool->totalCourses;i++)
     {
         printf("Enter details for course #%d\n",i + 1);
-        Course* newCourse = CreateCourse();
+        Course* newCourse = createCourse();
         newSchool->courseArray[i] = *newCourse;
         free(newCourse); // free the temporary student memory allocated by "create student"
     }
@@ -88,7 +88,7 @@ School* CreateSchool(void)
 
 // Step 7: Print Student Details
 
-void PrintStudentDetails(Student* student)
+void printStudentDetails(Student* student)
 {
     printf("Student name:%s\n", student->name);
     printf("Student ID:%u\n",student->id);
@@ -97,7 +97,7 @@ void PrintStudentDetails(Student* student)
 
 // Step 8: Print Course Details
 
-void PrintCourseDetails(Course* course)
+void printCourseDetails(Course* course)
 {
     printf("Course name:%s\n", course->name);
     printf("Course average grade:%lf\n",course->averageGrade);
@@ -105,19 +105,19 @@ void PrintCourseDetails(Course* course)
     for(int i=0;i<course->totalStudents;i++)
     {
         printf("Detalis for student %d:\n");
-        PrintStudentDetails(&(course->studentArray[i]));
+        printStudentDetails(&(course->studentArray[i]));
     } 
 }
 
 // Step 9: Print All Student's Courses
-void PrintAllStudentsCourses(Student* student, School* school)
+void printAllStudentsCourses(School* school, int studentID)
 {
-    printf("Courses that student %s with student id %u attends:\n", student->name, student->id);
+    printf("Courses that student with student id %u attends:\n", studentID);
     for(int i=0; i<school->totalCourses; i++)
     {
         for(int j=0; j<school->courseArray[i].totalStudents; j++)
         {
-            if(strcmp(student->name, school->courseArray[i].studentArray[j].name) == 0)
+            if(studentID == school->courseArray[i].studentArray[j].id)
             {
                 printf("%s\n", school->courseArray[i].name);
                 break; //if student found in this course, no need to check other students 
@@ -135,7 +135,7 @@ void printStudentsWhoFailed(Course* course, double cutoffGrade)
     {
         if(course->studentArray[i].grade < cutoffGrade)
         {
-            PrintStudentDetails(&(course->studentArray[i]));
+            printStudentDetails(&(course->studentArray[i]));
         }
     }
 }
@@ -149,7 +149,7 @@ void printStudentsWhoPased(Course* course, double cutoffGrade)
     {
         if(course->studentArray[i].grade >= cutoffGrade)
         {
-            PrintStudentDetails(&(course->studentArray[i]));
+            printStudentDetails(&(course->studentArray[i]));
         }
     }
 }
@@ -163,7 +163,7 @@ void printCoursessWitPassAverageGrade(School* school, double cutoffGrade)
     {
         if(school->courseArray[i].averageGrade >= cutoffGrade)
         {
-            PrintCourseDetails(&(school->courseArray[i]));
+            printCourseDetails(&(school->courseArray[i]));
         }
     }
 }
@@ -177,7 +177,7 @@ void printCoursessWitFailedAverageGrade(School* school, double cutoffGrade)
     {
         if(school->courseArray[i].averageGrade < cutoffGrade)
         {
-            PrintCourseDetails(&(school->courseArray[i]));
+            printCourseDetails(&(school->courseArray[i]));
         }
     }
 }
@@ -210,13 +210,29 @@ void printCoursessWitHighestAverageGrade(School* school)
         }
     }
     printf("Course with Highest Average Grade is:\n");
-    PrintCourseDetails(highestAvgCourse);
+    printCourseDetails(highestAvgCourse);
 }
 
+// Step 16: Print School Details
+
+void printSchoolDetails(School* school)
+{
+    printf("School name:%s\n", school->name);
+    printf("Total courses in school:%d\n", school->totalCourses);
+    for(int i=0; i<school->totalCourses; i++)
+    {
+        printf("Detalis for course %d:\n");
+        printCourseDetails(&(school->courseArray[i]));
+    } 
+}
 
  int main()
  {
     // Create School
-    School* mySchool = CreateSchool();
+    School* mySchool = createSchool();
+    printSchoolDetails(mySchool);
+    printAllStudentsCourses(mySchool, 123);
+    printStudentsWhoFailed(&(mySchool->courseArray[0]), 60.0);
+    printStudentsWhoPased(&(mySchool->courseArray[0]), 60.0);
 
  }
