@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 //#include <stdint.h>
 
 // Step1: Defining the 'Student' Struct
@@ -40,6 +41,16 @@ Student* createStudent(void)
     return newStudent;
 }
 
+void updateAverageGrade(Course* course)
+{
+    double totalGrades =0;
+    for(int i=0; i<course->totalStudents;i++)
+    {
+        totalGrades += course->studentArray[i].grade;
+    }
+    course->averageGrade = totalGrades / course->totalStudents;
+}
+
 // Step5: Creating a Course
 Course* createCourse(void)
 {   
@@ -57,10 +68,9 @@ Course* createCourse(void)
         printf("Enter details for student #%d\n",i + 1);
         Student* newStudent = createStudent();
         newCourse->studentArray[i] = *newStudent; 
-        newCourse->averageGrade += newCourse->studentArray[i].grade;
         free(newStudent); // free the temporary student memory allocated by "create student"
     }
-    newCourse->averageGrade /= newCourse->totalStudents;
+    updateAverageGrade(newCourse);
     return newCourse;
 }
 
@@ -70,8 +80,6 @@ School* createSchool(void)
     School* newSchool = (School*)malloc(sizeof(School));
     printf("Enter School Name:");
     scanf("%20s", newSchool->name);
-    // printf("Enter average grade:");
-    // scanf("%f", newCourse->averageGrade);
     printf("Enter total number of courses in school:");
     scanf("%d", &(newSchool->totalCourses));
     printf("Enter courses that is attending in school:");
@@ -226,6 +234,86 @@ void printSchoolDetails(School* school)
     } 
 }
 
+// Step 17: Updating Student Grade
+
+void updateStudentGrade(Course* course, unsigned int studentID, unsigned int newGrade)
+{
+    for(int i=0; i< course->totalStudents; i++)
+    {
+        if(course->studentArray[i].id == studentID)
+        {
+            course->studentArray[i].grade = newGrade;
+            updateAverageGrade(course);
+            return;
+        }
+    }
+    printf("Student with student id %u is not found.", studentID);
+}
+
+// Step 18: Updating Student Name
+
+void updateStudentGrade(Course* course, unsigned int studentID, char* newName)
+{
+    for(int i=0; i< course->totalStudents; i++)
+    {
+        if(course->studentArray[i].id == studentID)
+        {
+            strcpy(course->studentArray[i].name, newName);
+            return;
+        }
+    }
+    printf("Student with student id %u is not found.", studentID);
+}
+
+// Step 19: Is Course in School
+
+bool isCourseInSchool(School* school, char* courseName)
+{
+    for(int i=0; i<school->totalCourses; i++)
+    {
+        if(strcmp(school->courseArray[i].name, courseName) == 0)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Step 20: Updating Course Name
+
+void updateCourseName(Course* course, char* newName)
+{
+    strcpy(course->name, newName);
+}
+
+// Step 21: Printing Common Courses Between Schools
+
+void printCommonCoursesBetweenSchool(School* school1, School* school2)
+{
+    printf("Common courses between %s and %s:/n", school1->name, school2->name);
+    for(int i=0; i<school1->totalCourses; i++)
+    {
+        if(isCourseInSchool(school2, school1->courseArray[i].name))
+        {
+            printf("%s/n", school1->courseArray[i].name);
+        }
+    }
+}
+
+// Step 21: Printing Courses In One School While Not In The Other
+
+void printUniqueCoursesBetweenSchool(School* school1, School* school2)
+{
+    printf("Courses in %s school, but not in %s school:/n", school1->name, school2->name);
+    for(int i=0; i<school1->totalCourses; i++)
+    {
+        if(!isCourseInSchool(school2, school1->courseArray[i].name))
+        {
+            printf("%s/n", school1->courseArray[i].name);
+        }
+    }
+}
+   
 void freeStudents(Student* students)
 {
     free(students);
