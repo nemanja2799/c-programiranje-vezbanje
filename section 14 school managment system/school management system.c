@@ -252,7 +252,7 @@ void updateStudentGrade(Course* course, unsigned int studentID, unsigned int new
 
 // Step 18: Updating Student Name
 
-void updateStudentGrade(Course* course, unsigned int studentID, char* newName)
+void updateStudentName(Course* course, unsigned int studentID, char* newName)
 {
     for(int i=0; i< course->totalStudents; i++)
     {
@@ -313,7 +313,7 @@ void printUniqueCoursesBetweenSchool(School* school1, School* school2)
         }
     }
 }
-   
+
 void freeStudents(Student* students)
 {
     free(students);
@@ -323,7 +323,7 @@ void freeCourses(Course* courses, unsigned int totalCourses)
 {
     for(int i=0; i< totalCourses;i++)
     {
-        freeStudent(courses[i].studentArray);
+        freeStudents(courses[i].studentArray);
         courses[i].studentArray = NULL;
     }
 }
