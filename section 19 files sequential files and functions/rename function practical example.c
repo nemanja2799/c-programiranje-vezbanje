@@ -3,9 +3,12 @@
 
 // rename function can also be used to move a file from one directory to another
 // by specifying the new path in the second argument of the function
+// if file alredy exists in the destination path, it will be overwritten or function will fail depending on the system
+// 
 int main()
 {
     int result;
+    // result = rename("C:\\Users\\HP\\Desktop\\c programming practice\\myFile.txt", "C:\\Users\\HP\\Desktop\\c programming practice2\\yourNewFile.txt");
     result = rename("myFile.txt", "yourNewFile.txt");
     if(result == 0)
     {
